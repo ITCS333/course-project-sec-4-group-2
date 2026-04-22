@@ -13,8 +13,7 @@
     <meta charset="UTF-8" />
 
     <!-- TODO: Add the responsive 'viewport' meta tag. -->
-    <meta name="viewport" content="width=device-wdith, initial-scale=1.0" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- TODO: Add a 'title' for the page, e.g., "Admin Portal". -->
     <title>Admin Portal</title>
 
@@ -45,45 +44,46 @@
                  - id="password-form" -->
         <!-- TODO: Use a 'fieldset' to group the password-related fields. -->
         <!-- TODO: Add a 'legend' for the fieldset, e.g., "Password Update". -->
-        <form action="#" id="password-form"></form>
-        <fieldset>
-          <legend>Password Update</legend>
+        <form action="#" id="password-form">
+          <fieldset>
+            <legend>Password Update</legend>
 
-          <!-- TODO: Add a 'label' for the current password input. 'for' should be "current-password". -->
-          <!-- TODO: Add an 'input' for the current password.
+            <!-- TODO: Add a 'label' for the current password input. 'for' should be "current-password". -->
+            <!-- TODO: Add an 'input' for the current password.
                          - type="password"
                          - id="current-password"
                          - required -->
-          <label for="current-password">Current Password</label>
-          <input type="password" id="current-password" required />
+            <label for="current-password">Current Password</label>
+            <input type="password" id="current-password" required />
 
-          <!-- TODO: Add a 'label' for the new password input. 'for' should be "new-password". -->
-          <!-- TODO: Add an 'input' for the new password.
+            <!-- TODO: Add a 'label' for the new password input. 'for' should be "new-password". -->
+            <!-- TODO: Add an 'input' for the new password.
                          - type="password"
                          - id="new-password"
                          - minlength="8"
                          - required -->
-          <label for="new-password">New Password</label>
-          <input type="password" id="new-password" minlength="8" required />
+            <label for="new-password">New Password</label>
+            <input type="password" id="new-password" minlength="8" required />
 
-          <!-- TODO: Add a 'label' for the confirm password input. 'for' should be "confirm-password". -->
-          <!-- TODO: Add an 'input' to confirm the new password.
+            <!-- TODO: Add a 'label' for the confirm password input. 'for' should be "confirm-password". -->
+            <!-- TODO: Add an 'input' to confirm the new password.
                          - type="password"
                          - id="confirm-password"
                          - required -->
-          <label for="confirm-password">Confirm Password</label>
-          <input type="password" id="confirm-password" required />
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" required />
 
-          <!-- TODO: Add a 'button' to submit the form.
+            <!-- TODO: Add a 'button' to submit the form.
                          - type="submit"
                          - id="change"
                          - Text: "Update Password" -->
-          <button type="submit" id="change">Update Password</button>
+            <button type="submit" id="change">Update Password</button>
 
-          <!-- End of the fieldset. -->
+            <!-- End of the fieldset. -->
+          </fieldset>
           <!-- End of the password form. -->
-          <!-- End of the password management section. -->
-        </fieldset>
+        </form>
+        <!-- End of the password management section. -->
       </section>
 
       <!-- Section 2: User Management -->
@@ -132,7 +132,7 @@
               <label for="default-password">Default Password</label>
               <input
                 type="password"
-                id="defualt-password"
+                id="default-password"
                 minlength="8"
                 required
               />
