@@ -1,1 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ITCS333 | Internet Software Development</title>
+
+    <link rel="stylesheet" href="assets/style_home.css" />
+
+    <style>
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--surface-color);
+        padding: 1rem 2.5rem;
+        border-bottom: 2px solid var(--highlight);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      }
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: var(--text-main);
+      }
+      nav a {
+        color: var(--text-main);
+        text-decoration: none;
+        margin-left: 1.5rem;
+        font-size: 0.95rem;
+        transition: color 0.2s;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+      }
+      nav a:hover {
+        background-color: var(--highlight);
+      }
+      #nav-login {
+        background-color: var(--highlight);
+        font-weight: bold;
+      }
+      #nav-login:hover {
+        background-color: var(--accent-color);
+        color: #fff;
+      }
+
+      .hero {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .hero p {
+        line-height: 1.6;
+        color: var(--text-main);
+        opacity: 0.8;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+      .module-card {
+        background-color: var(--surface-color);
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 1px solid var(--highlight);
+        text-align: center;
+        text-decoration: none;
+        color: var(--text-main);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .module-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        border-color: var(--accent-color);
+      }
+
+      footer {
+        text-align: center;
+        padding: 1.5rem;
+        background-color: var(--surface-color);
+        font-size: 0.8rem;
+        color: var(--accent-color);
+        border-top: 1px solid var(--highlight);
+        margin-top: auto;
+      }
+    </style>
+  </head>
+  <body style="display: flex; flex-direction: column; min-height: 100vh">
+    <header>
+      <div class="logo">ITCS333 Portal</div>
+      <nav id="main-nav">
+        <a href="src/auth/login.html" id="nav-login">Login</a>
+        <a
+          href="src/admin/manage_users.html"
+          id="nav-admin"
+          style="display: none"
+          >Admin Panel</a
+        >
+        <a href="#" id="nav-logout" style="display: none">Logout</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Welcome to Internet Software Development</h1>
+        <p>
+          This is the homepage for course materials, assignments, and
+          discussions. Please log in using your university ID to access content.
+        </p>
+      </section>
+
+      <div class="dashboard-grid">
+        <a href="src/resources/list.html" class="module-card">
+          <h3>Course Resources</h3>
+          <p>Access syllabus, lecture slides, and reading materials.</p>
+        </a>
+
+        <a href="src/weekly/list.html" class="module-card">
+          <h3>Weekly Breakdown</h3>
+          <p>View the course schedule and weekly objectives.</p>
+        </a>
+
+        <a href="src/assignments/list.html" class="module-card">
+          <h3>Assignments</h3>
+          <p>Submit coursework and view grades.</p>
+        </a>
+
+        <a href="src/discussion/board.html" class="module-card">
+          <h3>Discussion Board</h3>
+          <p>Collaborate with students and ask questions.</p>
+        </a>
+      </div>
+    </main>
+
+    <footer>&copy; 2026 ITCS333 Course Website</footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {});
+    </script>
+  </body>
+</html>
