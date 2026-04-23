@@ -131,6 +131,7 @@ function handleChangePassword(event) {
     .then(({ ok, result }) => {
       if (ok && result.success) {
         alert("Password updated successfully!");
+        passwordForm.reset();
         document.getElementById("current-password").value = "";
         document.getElementById("new-password").value = "";
         document.getElementById("confirm-password").value = "";
@@ -394,7 +395,7 @@ async function loadUsersAndInitialize() {
       console.error("Invalid data format returned from API.");
     }
 
-    if (!listenersAttached) {
+    if (!document.body.dataset.listenersAttached) {
       passwordForm.addEventListener("submit", handleChangePassword);
       addUserForm.addEventListener("submit", handleAddUser);
       userTableBody.addEventListener("click", handleTableClick);
@@ -404,7 +405,7 @@ async function loadUsersAndInitialize() {
         th.addEventListener("click", handleSort);
       });
 
-      listenersAttached = true;
+      document.body.dataset.listenersAttached = "true";
     }
   } catch (error) {
     console.error("Fetch Error:", error);
