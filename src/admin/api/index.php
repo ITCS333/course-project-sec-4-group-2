@@ -325,14 +325,14 @@ $query = "UPDATE users SET " . implode(", ", $fields) . " WHERE id = :id";
 function deleteUser($db, $id) {
     // TODO: Check that $id is present and non-zero.
     //       If not, call sendResponse() with HTTP 400.
-    if (empty($deleteId) || $deleteId == 0) {
+    if (empty($id) || $id == 0) {
         sendResponse("Invalid User ID.", 400);
     }
 
     // TODO: Check that a user with this id exists.
     //       If not, call sendResponse() with HTTP 404.
     $stmt = $db->prepare("SELECT id FROM users WHERE id = :id");
-    $stmt->bindValue(':id', $deleteId, PDO::PARAM_INT);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     if (!$stmt->fetch()) {
         sendResponse("User not found.", 404);
@@ -340,7 +340,7 @@ function deleteUser($db, $id) {
 
     // TODO: Prepare and execute: DELETE FROM users WHERE id = :id
     $stmt = $db->prepare("DELETE FROM users WHERE id = :id");
-    $stmt->bindValue(':id', $deleteId, PDO::PARAM_INT);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
     // TODO: If successful, call sendResponse() with a success message and HTTP 200.
     //       If the query fails, call sendResponse() with HTTP 500.
