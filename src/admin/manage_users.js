@@ -71,7 +71,7 @@ function createUserRow(user) {
  */
 function renderTable(userArray) {
   // ... your implementation here ...
-  userTableBoddy.innerHTML = "";
+  userTableBody.innerHTML = "";
   userArray.forEach((user) => {
     const row = createUserRow(user);
     userTableBody.appendChild(row);
@@ -131,7 +131,9 @@ function handleChangePassword(event) {
     .then(({ ok, result }) => {
       if (ok && result.success) {
         alert("Password updated successfully!");
-        passwordForm.reset();
+        document.getElementById("current-password").value = "";
+        document.getElementById("new-password").value = "";
+        document.getElementById("confirm-password").value = "";
       } else {
         alert(result.error || "Failed to update password.");
       }
