@@ -111,6 +111,11 @@ function handleChangePassword(event) {
     return;
   }
 
+  document.getElementById("current-password").value = "";
+  document.getElementById("new-password").value = "";
+  document.getElementById("confirm-password").value = "";
+  if (passwordForm) passwordForm.reset();
+
   const loggedInUserId =
     typeof sessionStorage !== "undefined"
       ? sessionStorage.getItem("userId")
@@ -395,18 +400,14 @@ async function loadUsersAndInitialize() {
       console.error("Invalid data format returned from API.");
     }
 
-    if (!document.body.dataset.listenersAttached) {
-      passwordForm.addEventListener("submit", handleChangePassword);
-      addUserForm.addEventListener("submit", handleAddUser);
-      userTableBody.addEventListener("click", handleTableClick);
-      searchInput.addEventListener("input", handleSearch);
+    passwordForm.addEventListener("submit", handleChangePassword);
+    addUserForm.addEventListener("submit", handleAddUser);
+    userTableBody.addEventListener("click", handleTableClick);
+    searchInput.addEventListener("input", handleSearch);
 
-      tableHeaders.forEach((th) => {
-        th.addEventListener("click", handleSort);
-      });
-
-      document.body.dataset.listenersAttached = "true";
-    }
+    tableHeaders.forEach((th) => {
+      th.addEventListener("click", handleSort);
+    });
   } catch (error) {
     console.error("Fetch Error:", error);
   }
