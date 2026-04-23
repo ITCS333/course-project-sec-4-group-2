@@ -74,7 +74,7 @@ function renderTable(userArray) {
   userTableBoddy.innerHTML = "";
   userArray.forEach((user) => {
     const row = createUserRow(user);
-    userTableBoddy.appendChild(row);
+    userTableBody.appendChild(row);
   });
 }
 
@@ -111,7 +111,10 @@ function handleChangePassword(event) {
     return;
   }
 
-  const loggedInUserId = sessionStorage.getItem("userId") || 1;
+  const loggedInUserId =
+    typeof sessionStorage !== "undefined"
+      ? sessionStorage.getItem("userId")
+      : 1;
 
   fetch("../api/index.php?action=change_password", {
     method: "POST",
@@ -377,7 +380,6 @@ async function loadUsersAndInitialize() {
 
     if (!response.ok) {
       console.error("API Response not OK", response.status);
-      alert("Failed to fetch user data from the server.");
       return;
     }
 
@@ -390,19 +392,20 @@ async function loadUsersAndInitialize() {
       console.error("Invalid data format returned from API.");
     }
 
-    passwordForm.addEventListener("submit", handleChangePassword, {
-      once: true,
-    });
-    addUserForm.addEventListener("submit", handleAddUser, { once: true });
-    userTableBody.addEventListener("click", handleTableClick, { once: true });
-    searchInput.addEventListener("input", handleSearch, { once: true });
+    if (!listenersAttached) {
+      passwordForm.addEventListener("submit", handleChangePassword);
+      addUserForm.addEventListener("submit", handleAddUser);
+      userTableBody.addEventListener("click", handleTableClick);
+      searchInput.addEventListener("input", handleSearch);
 
-    tableHeaders.forEach((th) => {
-      th.addEventListener("click", handleSort, { once: true });
-    });
+      tableHeaders.forEach((th) => {
+        th.addEventListener("click", handleSort);
+      });
+
+      listenersAttached = true;
+    }
   } catch (error) {
     console.error("Fetch Error:", error);
-    alert("A network error occurred while loading users.");
   }
 }
 
