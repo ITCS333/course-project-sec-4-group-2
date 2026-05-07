@@ -64,6 +64,7 @@ function createWeekArticle(week) {
   article.appendChild(pStartDate);
   article.appendChild(pDescription);
   article.appendChild(link);
+  return article;
 }
 
 /**
@@ -81,6 +82,24 @@ function createWeekArticle(week) {
  */
 async function loadWeeks() {
   // ... your implementation here ...
+  try {
+    const response = await fetch('./api/index.php');
+    const result = await response.json();
+    
+    if (result.success && Array.isArray(result.data)) {
+      // Clear existing content
+      weekListSection.innerHTML = '';
+      
+      // Loop through weeks and append each article
+      for (const week of result.data) {
+        const article = createWeekArticle(week);
+        weekListSection.appendChild(article);
+      }
+    }
+  } catch (error) {
+    console.error('Error loading weeks:', error);
+    weekListSection.innerHTML = '<p>Error loading course content. Please try again later.</p>';
+  }
 }
 
 // --- Initial Page Load ---
