@@ -14,10 +14,13 @@
 
     <!-- TODO: Add the responsive viewport <meta> tag
          (width=device-width, initial-scale=1.0). -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- TODO: Add a <title>, e.g., "Manage Weekly Breakdown". -->
+  <title>Manage Weekly Breakdown</title>
 
     <!-- TODO: Link to your CSS framework or stylesheet. -->
+  <link rel="stylesheet" href="style.css">
 
     <!-- Required: link admin.js with defer. -->
     <script src="admin.js" defer></script>
@@ -26,26 +29,41 @@
 
     <!-- TODO: Create a <header> containing an <h1>
          "Manage Weekly Breakdown". -->
+  <header>
+        <h1>Manage Weekly Breakdown</h1>
+  </header>
 
     <!-- TODO: Create the <main> content area. -->
+   <main>
 
         <!-- ============================================================
              Section 1: Add / Edit Week Form
              ============================================================ -->
         <!-- TODO: Create a <section> for the form. -->
+     <section>
 
             <!-- TODO: Add a sub-heading <h2> "Add a New Week". -->
+       <h2>Add a New Week</h2>
 
             <!-- TODO: Create a <form id="week-form"> (action can be "#").
                  The id is required by admin.js. -->
+       <form id="week-form" action="#">
 
                 <!-- TODO: Use a <fieldset> to group the form controls. -->
                     <!-- TODO: Add a <legend>, e.g., "Weekly Details". -->
+         <legend>Weekly Details</legend>
 
                     <!-- TODO: Add a <label> and <input> for the week title.
                          - label for="week-title"
                          - input id="week-title", type="text", required
                          - Placeholder: "Week 1: Introduction to HTML" -->
+         <label for="week-title">Week Title</label>
+                    <input
+                        type="text"
+                        id="week-title"
+                        placeholder="Week 1: Introduction to HTML"
+                        required
+                    >
 
                     <!-- TODO: Add a <label> and <input> for the start date.
                          - label for="week-start-date"
