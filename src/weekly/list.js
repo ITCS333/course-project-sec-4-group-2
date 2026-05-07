@@ -13,6 +13,8 @@
 
 // --- Element Selections ---
 // TODO: Select the section for the week list using its id 'week-list-section'.
+const weekListSection = document.getElementById('week-list-section');
+
 
 // --- Functions ---
 
@@ -43,6 +45,25 @@
  */
 function createWeekArticle(week) {
   // ... your implementation here ...
+  const article = document.createElement('article');
+
+  const h2 = document.createElement('h2');
+  h2.textContent = week.title;
+
+  const pStartDate = document.createElement('p');
+  pStartDate.textContent = `Starts on: ${week.start_date}`;
+
+  const pDescription = document.createElement('p');
+  pDescription.textContent = week.description;
+
+  const link = document.createElement('a');
+  link.href = `details.html?id=${week.id}`;
+  link.textContent = 'View Details & Discussion';
+
+  article.appendChild(h2);
+  article.appendChild(pStartDate);
+  article.appendChild(pDescription);
+  article.appendChild(link);
 }
 
 /**
