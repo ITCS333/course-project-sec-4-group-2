@@ -200,6 +200,33 @@ async function handleAddWeek(event) {
  */
 async function handleUpdateWeek(id, fields) {
   // ... your implementation here ...
+  try {
+    const response = await fetch('./api/index.php', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id, ...fields })
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      const weekIndex = weeks.findIndex(week => week.id === id);
+      if (weekIndex !== -1) {
+        weeks[weekIndex] = { id, ...fields };
+        renderTable();
+      }
+      
+      weekForm.reset();
+      
+      const submitButton = document.getElementById('add-week');
+      submitButton.textContent = 'Add Week';
+      submitButton.removeAttribute('data-edit-id');
+    }
+  } catch (error) {
+    console.error('Error updating week:', error);
+  }
 }
 
 /**
@@ -224,6 +251,47 @@ async function handleUpdateWeek(id, fields) {
  */
 async function handleTableClick(event) {
   // ... your implementation here ...
+    const target = event.target;
+  
+  if (target.classList.contains('delete-btn')) {
+    const id = parseInt(target.getAttribute('data-id'));
+    
+    if (confirm('Are you sure you want to delete this week?')) {
+      try {
+        const response = await fetch(`./api/index.php?id=${id}`, {
+          method: 'DELETE'
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          weeks = weeks.filter(week => week.id !== id);
+          renderTable();
+        }
+      } catch (error) {
+        console.error('Error deleting week:', error);
+      }
+    }
+  }
+  
+  if (target.classList.contains('edit-btn')) {
+    const id = parseInt(target.getAttribute('data-id'));
+    
+    const week = weeks.find(week => week.id === id);
+    
+    if (week) {
+      document.getElementById('week-title').value = week.title;
+      document.getElementById('week-start-date').value = week.start_date;
+      document.getElementById('week-description').value = week.description;
+      document.getElementById('week-links').value = week.links.join('\n');
+      
+      const submitButton = document.getElementById('add-week');
+      submitButton.textContent = 'Update Week';
+      submitButton.setAttribute('data-edit-id', id);
+      
+      weekForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }
 
 /**
@@ -241,6 +309,24 @@ async function handleTableClick(event) {
  */
 async function loadAndInitialize() {
   // ... your implementation here ...
+    try {
+    // Fetch weeks from API
+    const response = await fetch('./api/index.php');
+    const result = await response.json();
+    
+    if (result.success && Array.isArray(result.data)) {
+      // Store data in global weeks array
+      weeks = result.data;
+      
+      renderTable();
+    }
+    
+    weekForm.addEventListener('submit', handleAddWeek);
+    weeksTbody.addEventListener('click', handleTableClick);
+    
+  } catch (error) {
+    console.error('Error loading weeks:', error);
+  }
 }
 
 // --- Initial Page Load ---
