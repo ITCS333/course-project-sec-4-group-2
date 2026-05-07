@@ -32,8 +32,10 @@ let weeks = [];
 
 // --- Element Selections ---
 // TODO: Select the week form by id 'week-form'.
+const weekForm = document.getElementById('week-form');
 
 // TODO: Select the weeks table body by id 'weeks-tbody'.
+const weeksTbody = document.getElementById('weeks-tbody');
 
 // --- Functions ---
 
@@ -55,6 +57,37 @@ let weeks = [];
  */
 function createWeekRow(week) {
   // ... your implementation here ...
+  const tr = document.createElement('tr');
+  
+  const tdTitle = document.createElement('td');
+  tdTitle.textContent = week.title;
+  tr.appendChild(tdTitle);
+
+  const tdStartDate = document.createElement('td');
+  tdStartDate.textContent = week.start_date;
+  tr.appendChild(tdStartDate);
+
+  const tdDescription = document.createElement('td');
+  tdDescription.textContent = week.description;
+  tr.appendChild(tdDescription);
+
+    const tdActions = document.createElement('td');
+
+  const editBtn = document.createElement('button');
+  editBtn.textContent = 'Edit';
+  editBtn.className = 'edit-btn';
+  editBtn.setAttribute('data-id', week.id);
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'Delete';
+  deleteBtn.className = 'delete-btn';
+  deleteBtn.setAttribute('data-id', week.id);
+
+  tdActions.appendChild(editBtn);
+  tdActions.appendChild(deleteBtn);
+  tr.appendChild(tdActions);
+
+  return tr;
 }
 
 /**
