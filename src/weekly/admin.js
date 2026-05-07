@@ -101,6 +101,11 @@ function createWeekRow(week) {
  */
 function renderTable() {
   // ... your implementation here ...
+    weeksTbody.innerHTML = '';
+ for (const week of weeks) {
+  const row = createWeekRow(week);
+  weeksTbody.appendChild(row);
+ }
 }
 
 /**
@@ -127,6 +132,53 @@ function renderTable() {
  */
 async function handleAddWeek(event) {
   // ... your implementation here ...
+    event.preventDefault();
+
+  const title = document.getElementById('week-title').value;
+  const start_date = document.getElementById('week-start-date').value;
+  const description = document.getElementById('week-description').value;
+  const linksTextarea = document.getElementById('week-links').value;
+
+  const links = linksTextarea.split('\n')
+    .map(link => link.trim())
+    .filter(link => link !== '');
+
+  const submitButton = document.getElementById('add-week');
+  const editId = submitButton.getAttribute('data-edit-id');
+
+  if (editId) {
+    const id = parseInt(editId);
+    const fields = { title, start_date, description, links };
+    await handleUpdateWeek(id, fields);
+  } else {
+    try {
+      const response = await fetch('./api/index.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, start_date, description, links })
+      });
+         const result = await response.json();
+      
+      if (result.success && result.id) {
+        const newWeek = {
+          id: result.id,
+          title,
+          start_date,
+          description,
+          links
+        };
+        weeks.push(newWeek);
+        renderTable();
+        
+        // Reset form
+        weekForm.reset();
+      }
+    } catch (error) {
+      console.error('Error adding week:', error);
+    }
+  }
 }
 
 /**
