@@ -105,10 +105,10 @@ $data    = json_decode($rawData, true) ?? [];
 
 
 // TODO: Read query parameters.
-// $action    = $_GET['action']     ?? null;  // 'comments', 'comment', 'delete_comment'
-// $id        = $_GET['id']         ?? null;  // integer week id
-// $weekId    = $_GET['week_id']    ?? null;  // integer week id for comments queries
-// $commentId = $_GET['comment_id'] ?? null;  // integer comment id
+ $action    = $_GET['action']     ?? null;  // 'comments', 'comment', 'delete_comment'
+ $id        = $_GET['id']         ?? null;  // integer week id
+ $weekId    = $_GET['week_id']    ?? null;  // integer week id for comments queries
+ $commentId = $_GET['comment_id'] ?? null;  // integer comment id
 
 
 // ============================================================================
