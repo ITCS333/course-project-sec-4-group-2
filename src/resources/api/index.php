@@ -10,10 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
     exit;
 }
 
-require_once __DIR__ . "/config/Database.php";
+require_once __DIR__ . "/../../common/db.php";
 
-$database = new Database();
-$db = $database->getConnection();
+$db = getDBConnection();
 
 $method = $_SERVER["REQUEST_METHOD"];
 $rawData = file_get_contents("php://input");
