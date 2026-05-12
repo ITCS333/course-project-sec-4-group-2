@@ -1,101 +1,128 @@
+/*
+  Requirement: Populate the resource detail page and discussion forum.
+*/
+
+// --- Global Data Store ---
 let currentResourceId = null;
 let currentComments = [];
 
-const titleElement = document.getElementById('resource-title');
-const descriptionElement = document.getElementById('resource-description');
-const linkElement = document.getElementById('resource-link');
-const commentList = document.getElementById('comment-list');
-const commentForm = document.getElementById('comment-form');
-const newCommentInput = document.getElementById('new-comment');
+// --- Element Selections ---
+const resourceTitle = document.querySelector("#resource-title");
+const resourceDescription = document.querySelector("#resource-description");
+const resourceLink = document.querySelector("#resource-link");
+const commentList = document.querySelector("#comment-list");
+const commentForm = document.querySelector("#comment-form");
+const newComment = document.querySelector("#new-comment");
+
+// --- Functions ---
 
 function getResourceIdFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('id');
+  const params = new URLSearchParams(window.location.search);
+  return params.get("id");
 }
 
 function renderResourceDetails(resource) {
-    titleElement.textContent = resource.title;
-    descriptionElement.textContent = resource.description;
-    linkElement.href = resource.link;
+  resourceTitle.textContent = resource.title;
+  resourceDescription.textContent = resource.description;
+  resourceLink.href = resource.link;
 }
 
 function createCommentArticle(comment) {
-    const article = document.createElement('article');
-    const p = document.createElement('p');
-    p.textContent = comment.text;
-    const footer = document.createElement('footer');
-    footer.textContent = `Posted by: ${comment.author}`;
-    article.appendChild(p);
-    article.appendChild(footer);
-    return article;
+  const article = document.createElement("article");
+
+  const text = document.createElement("p");
+  text.textContent = comment.text;
+
+  const footer = document.createElement("footer");
+  footer.textContent = `Posted by: ${comment.author}`;
+
+  article.appendChild(text);
+  article.appendChild(footer);
+
+  return article;
 }
 
 function renderComments() {
-    commentList.innerHTML = '';
-    currentComments.forEach(comment => {
-        const article = createCommentArticle(comment);
-        commentList.appendChild(article);
+  commentList.innerHTML = "";
+
+  currentComments.forEach(function (comment) {
+    const article = createCommentArticle(comment);
+    commentList.appendChild(article);
+  });
+}
+
+function handleAddComment(event) {
+  event.preventDefault();
+
+  const commentText = newComment.value.trim();
+
+  if (commentText === "") {
+    return;
+  }
+
+  fetch("./api/index.php?action=comment", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      resource_id: currentResourceId,
+      author: "Student",
+      text: commentText
+    })
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (result) {
+      const comment = result.data || {
+        id: result.id,
+        resource_id: currentResourceId,
+        author: "Student",
+        text: commentText,
+        created_at: ""
+      };
+
+      currentComments.push(comment);
+      renderComments();
+      newComment.value = "";
     });
 }
 
-async function handleAddComment(event) {
-    event.preventDefault();
-    const commentText = newCommentInput.value.trim();
-    if (!commentText) return;
-
-    try {
-        const response = await fetch('./resources/api/index.php?action=comment', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                resource_id: currentResourceId,
-                author: 'Student',
-                text: commentText
-            })
-        });
-        const result = await response.json();
-        if (result.success) {
-            currentComments.push({
-                id: result.id,
-                resource_id: currentResourceId,
-                author: 'Student',
-                text: commentText
-            });
-            renderComments();
-            newCommentInput.value = '';
-        }
-    } catch (error) {
-        console.error('Error posting comment:', error);
-    }
-}
-
 async function initializePage() {
-    currentResourceId = getResourceIdFromURL();
-    if (!currentResourceId) {
-        titleElement.textContent = 'Resource not found.';
-        return;
+  currentResourceId = getResourceIdFromURL();
+
+  if (!currentResourceId) {
+    resourceTitle.textContent = "Resource not found.";
+    return;
+  }
+
+  try {
+    const [resourceResponse, commentsResponse] = await Promise.all([
+      fetch(`./api/index.php?id=${currentResourceId}`),
+      fetch(`./api/index.php?resource_id=${currentResourceId}&action=comments`)
+    ]);
+
+    const resourceResult = await resourceResponse.json();
+    const commentsResult = await commentsResponse.json();
+
+    const resource = resourceResult.data;
+
+    if (!resource || Array.isArray(resource)) {
+      resourceTitle.textContent = "Resource not found.";
+      return;
     }
 
-    try {
-        const [resourceRes, commentsRes] = await Promise.all([
-            fetch(`./resources/api/index.php?id=${currentResourceId}`),
-            fetch(`./resources/api/index.php?resource_id=${currentResourceId}&action=comments`)
-        ]);
-        const resourceData = await resourceRes.json();
-        const commentsData = await commentsRes.json();
+    currentComments = commentsResult.data || [];
 
-        if (resourceData.success) {
-            renderResourceDetails(resourceData.data);
-            currentComments = commentsData.success ? commentsData.data : [];
-            renderComments();
-            commentForm.addEventListener('submit', handleAddComment);
-        } else {
-            titleElement.textContent = 'Resource not found.';
-        }
-    } catch (error) {
-        console.error('Error initializing page:', error);
-        titleElement.textContent = 'Error loading resource.';
-    }
+    renderResourceDetails(resource);
+    renderComments();
+
+    commentForm.addEventListener("submit", handleAddComment);
+  } catch (error) {
+    resourceTitle.textContent = "Resource not found.";
+  }
 }
 
+// --- Initial Page Load ---
 initializePage();
